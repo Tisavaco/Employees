@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Employees.Entity;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,10 @@ namespace Employees
         public MainWindow()
         {
             InitializeComponent();
+            using (var context = new AppDbContext())
+            {
+                context.Database.Migrate();
+            }
         }
     }
 }
