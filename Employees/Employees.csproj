@@ -186,6 +186,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DependencyInjection.cs" />
     <Compile Include="Entity\AppDbContext.cs" />
     <Compile Include="Entity\Employees.cs" />
     <Compile Include="Entity\Organization.cs" />

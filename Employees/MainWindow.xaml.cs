@@ -1,5 +1,6 @@
 ﻿using Employees.Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +23,53 @@ namespace Employees
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly AppDbContext appDbContext;
         public MainWindow()
         {
             InitializeComponent();
-            using (var context = new AppDbContext())
-            {
-                context.Database.Migrate();
-            }
+            AddEmployesGrid.Visibility = Visibility.Collapsed;
+            AddOrganizationGrid.Visibility = Visibility.Collapsed;
+            appDbContext = DependencyInjection.ServiceProvider.GetRequiredService<AppDbContext>();
+
         }
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("нажата загрузка");
+        }
+        private void UpLoad_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("нажата выгрузка");
+        }
+        private void Organization_Click(object sender, RoutedEventArgs e)
+        {
+            AddEmployesGrid.Visibility = Visibility.Collapsed;
+            AddOrganizationGrid.Visibility = Visibility.Visible;
+        }
+        private void Employes_Click(object sender, RoutedEventArgs e)
+        {
+            AddEmployesGrid.Visibility = Visibility.Visible;
+            AddOrganizationGrid.Visibility = Visibility.Collapsed;
+            var organization = appDbContext.Organizations.Select(x => x.Name);
+            organizationComboBox.ItemsSource = organization.ToList();
+        }
+        private void AddOrganization_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(organizationNameText.Text == "" || innText.Text == "" || legalAddressText.Text == "" || actualAddressText.Text == ""))
+            {
+                Organization organization = new Organization()
+                {
+                    Name = organizationNameText.Text,
+                    INN = innText.Text,
+                    LegalAddress = legalAddressText.Text,
+                    ActualAddress = actualAddressText.Text
+                };               
+                appDbContext.Organizations.Add(organization);
+                appDbContext.SaveChanges();
+                AddOrganizationGrid.Visibility = Visibility.Collapsed;
+            }
+            else
+                MessageBox.Show("Введены некорректные данные!");
+        }
+
     }
 }

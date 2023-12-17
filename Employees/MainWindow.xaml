@@ -7,6 +7,42 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Menu Height="30" VerticalAlignment="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Загрузить" Click="Load_Click"/>
+                <MenuItem Header="Выгрузить" Click="UpLoad_Click"/>
+            </MenuItem>
+            <MenuItem Header="Добавить">
+                <MenuItem Header="Организацию" Click="Organization_Click"/>
+                <MenuItem Header="Сотрудника" Click="Employes_Click"/>
+            </MenuItem>
+        </Menu>
+        <Grid x:Name="AddOrganizationGrid" d:IsHidden="True">
+            <Label Content="Название организации:" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
+            <Label Content="ИНН:" HorizontalAlignment="Left" Margin="112,80,0,0" VerticalAlignment="Top"/>
+            <Label Content="Юридический адрес:" HorizontalAlignment="Left" Margin="27,120,0,0" VerticalAlignment="Top"/>
+            <Label Content="Фактический адрес:" HorizontalAlignment="Left" Margin="35,160,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="organizationNameText" HorizontalAlignment="Left" Margin="169,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="innText" HorizontalAlignment="Left" Margin="169,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="legalAddressText" HorizontalAlignment="Left" Margin="169,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="actualAddressText" HorizontalAlignment="Left" Margin="169,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <Button Content="Добавить" HorizontalAlignment="Left" Margin="246,228,0,0" VerticalAlignment="Top" Click="AddOrganization_Click"/>
+        </Grid>
+        <Grid x:Name="AddEmployesGrid">
+            <Label Content="Выберите организацию:" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
+            <Label Content="Фамилия:" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top"/>
+            <Label Content="Имя:" HorizontalAlignment="Left" Margin="112,120,0,0" VerticalAlignment="Top"/>
+            <Label Content="Отчество:" HorizontalAlignment="Left" Margin="27,160,0,0" VerticalAlignment="Top"/>
+            <Label Content="День рождения:" HorizontalAlignment="Left" Margin="35,200,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="surnameText" HorizontalAlignment="Left" Margin="169,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="nameText" HorizontalAlignment="Left" Margin="169,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="middleNameText" HorizontalAlignment="Left" Margin="169,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <TextBox x:Name="birthDateText" HorizontalAlignment="Left" Margin="169,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <Button Content="Добавить" HorizontalAlignment="Left" Margin="229,338,0,0" VerticalAlignment="Top" Click="AddOrganization_Click"/>
+            <ComboBox Name="organizationComboBox" HorizontalAlignment="Left" Margin="169,45,0,0" VerticalAlignment="Top" Width="120"/>
+
+
+
+        </Grid>
     </Grid>
 </Window>
