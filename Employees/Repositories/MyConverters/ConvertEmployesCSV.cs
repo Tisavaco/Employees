@@ -1,5 +1,6 @@
 ﻿using Employees.Entity;
 using Employees.Repositories.OdjectClass;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using System;
@@ -38,39 +39,46 @@ namespace Employees.Repositories.MyConverters
             }
             return employesCSV;
         }
-        public static void ConvertTo(IEnumerable<EmployesCSV> employesCSVs)
+        public static async void ConvertTo(IEnumerable<EmployesCSV> employesCSVs)
         {
-            var appDbContext = DependencyInjection.ServiceProvider.GetRequiredService<AppDbContext>();
-            foreach (var item in employesCSVs)
+            try
             {
-                var organization = new Entity.Organization()
+                var appDbContext = DependencyInjection.ServiceProvider.GetRequiredService<AppDbContext>();
+                foreach (var item in employesCSVs)
                 {
-                    Name = item.OrganizationName,
-                    INN = item.INN,
-                    LegalAddress = item.LegalAddress,
-                    ActualAddress = item.ActualAddress
-                };
-                if (!appDbContext.Organizations.Any(p => p.INN == item.INN))
-                {  
-                    appDbContext.Organizations.Add(organization);
+                    var organization = new Entity.Organization()
+                    {
+                        Name = item.OrganizationName,
+                        INN = item.INN,
+                        LegalAddress = item.LegalAddress,
+                        ActualAddress = item.ActualAddress
+                    };
+                    if (!await appDbContext.Organizations.AnyAsync(p => p.INN == item.INN))
+                    {
+                        appDbContext.Organizations.Add(organization);
+                        appDbContext.SaveChanges();
+                    }
+                    if ((await appDbContext.Employe.Where(e => e.PassportSeries == item.PassportSeries && e.PassportNumber == item.PassportNumber).ToListAsync()).Count > 0)
+                    {
+                        continue;
+                    }
+                    organization = await appDbContext.Organizations.SingleAsync(p => p.INN == organization.INN);
+                    Employees.Entity.Employees employees = new Employees.Entity.Employees()
+                    {
+                        Organization = organization,
+                        Surname = item.Surname,
+                        Name = item.Name,
+                        MiddleName = item.MiddleName,
+                        BirthDate = item.BirthDate.Date,
+                        PassportSeries = item.PassportSeries,
+                        PassportNumber = item.PassportNumber
+                    };
+                    appDbContext.Employe.Add(employees);
                     appDbContext.SaveChanges();
                 }
-                if (appDbContext.Employe.Where(e => e.PassportSeries == item.PassportSeries && e.PassportNumber == item.PassportNumber).ToList().Count > 0)
-                {
-                    continue;
-                }
-                Employees.Entity.Employees employees = new Employees.Entity.Employees()
-                {
-                    Organization = organization,
-                    Surname = item.Surname,
-                    Name = item.Name,
-                    MiddleName = item.MiddleName,
-                    BirthDate = item.BirthDate.Date,
-                    PassportSeries = item.PassportSeries,
-                    PassportNumber = item.PassportNumber
-                };
-                appDbContext.Employe.Add(employees);
-                appDbContext.SaveChanges();
+            }
+            catch (Exception ex) 
+            { 
             }
         }
     }

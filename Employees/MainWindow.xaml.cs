@@ -38,7 +38,8 @@ namespace Employees
             AddEmployesGrid.Visibility = Visibility.Collapsed;
             AddOrganizationGrid.Visibility = Visibility.Collapsed;
             appDbContext = DependencyInjection.ServiceProvider.GetRequiredService<AppDbContext>();
-            AddDataFromDb.AddData();
+            if(!appDbContext.Organizations.Any())
+                AddDataFromDb.AddData();
 
         }
         private void Load_Click(object sender, RoutedEventArgs e)
@@ -46,30 +47,27 @@ namespace Employees
             var dialog = new OpenFileDialog();
             dialog.ShowDialog();
             var config = new CsvConfiguration(CultureInfo.CurrentCulture) { Delimiter = ";", Encoding = Encoding.UTF8 };
-            using (var fs = new FileStream(dialog.FileName, FileMode.Open))
-            using (var csv = new CsvReader(new StreamReader(fs, Encoding.UTF8), config))
+            //using (var fs = new FileStream(dialog.FileName, FileMode.Open))
+            using (var csv = new CsvReader(new StreamReader(dialog.FileName), CultureInfo.CurrentCulture))
             {
                 var employesCSVs = csv.GetRecords<EmployesCSV>();
                 ConvertEmployesCSV.ConvertTo(employesCSVs);
             }
         }
-        private void UpLoad_Click(object sender, RoutedEventArgs e)
+        private async void UpLoad_Click(object sender, RoutedEventArgs e)
         {
-            using (var context = new AppDbContext())
+            var data = await appDbContext.Employe.ToListAsync();
+            var employesCSV = ConvertEmployesCSV.Convert(data);
+            var config = new CsvConfiguration(CultureInfo.CurrentCulture) { Delimiter = ";", Encoding = Encoding.UTF8 };
+            using (var fs = new FileStream("Employes.csv", FileMode.Create))
+            using (var csv = new CsvWriter(new StreamWriter(fs, Encoding.UTF8), config))
             {
-                var data = context.Employe.ToList();
-                var employesCSV = ConvertEmployesCSV.Convert(data);
-                var config = new CsvConfiguration(CultureInfo.CurrentCulture) { Delimiter = ";", Encoding = Encoding.UTF8 };
-                using (var fs = new FileStream("Employes.csv", FileMode.Create))
-                using (var csv = new CsvWriter(new StreamWriter(fs, Encoding.UTF8), config))
+                csv.WriteHeader<EmployesCSV>();
+                csv.NextRecord();
+                foreach (var item in employesCSV)
                 {
-                    csv.WriteHeader<EmployesCSV>();
+                    csv.WriteRecord(item);
                     csv.NextRecord();
-                    foreach (var item in employesCSV)
-                    {
-                        csv.WriteRecord(item);
-                        csv.NextRecord();
-                    }
                 }
             }
         }
@@ -104,11 +102,11 @@ namespace Employees
             else
                 MessageBox.Show("Введены некорректные данные!");
         }
-        private void AddEmployes_Click(object sender, RoutedEventArgs e)
+        private async void AddEmployes_Click(object sender, RoutedEventArgs e)
         {
             if (!(nameText.Text == "" || surnameText.Text == "" || middleNameText.Text == "" || birthDateText.Text == "" || passportSeriesText.Text == "" || passportNumberText.Text == ""))
             {
-                var organization = appDbContext.Organizations.Single(p => p.Name == organizationComboBox.Text); 
+                var organization = await appDbContext.Organizations.SingleAsync(p => p.Name == organizationComboBox.Text); 
                 Employees.Entity.Employees employees = new Employees.Entity.Employees()
                 {
                     Organization = organization,

@@ -184,7 +184,6 @@
     <Compile Include="AddDataFromDb.cs" />
     <Compile Include="Repositories\MyConverters\ConvertEmployesCSV.cs" />
     <Compile Include="Repositories\OdjectClass\EmployesCSV.cs" />
-    <Compile Include="Repositories\OdjectClass\EmployesForm.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
