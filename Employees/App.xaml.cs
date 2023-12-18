@@ -25,6 +25,7 @@ namespace Employees
 
             var context = DependencyInjection.ServiceProvider.GetRequiredService<AppDbContext>();
             context.Database.Migrate();
+
         }
     }
 }
