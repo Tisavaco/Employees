@@ -28,18 +28,22 @@
             <TextBox x:Name="actualAddressText" HorizontalAlignment="Left" Margin="169,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
             <Button Content="Добавить" HorizontalAlignment="Left" Margin="246,228,0,0" VerticalAlignment="Top" Click="AddOrganization_Click"/>
         </Grid>
-        <Grid x:Name="AddEmployesGrid">
+        <Grid x:Name="AddEmployesGrid" Margin="10,-10,-10,10">
             <Label Content="Выберите организацию:" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
-            <Label Content="Фамилия:" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top"/>
-            <Label Content="Имя:" HorizontalAlignment="Left" Margin="112,120,0,0" VerticalAlignment="Top"/>
-            <Label Content="Отчество:" HorizontalAlignment="Left" Margin="27,160,0,0" VerticalAlignment="Top"/>
-            <Label Content="День рождения:" HorizontalAlignment="Left" Margin="35,200,0,0" VerticalAlignment="Top"/>
+            <Label Content="Фамилия:" HorizontalAlignment="Left" Margin="90,80,0,0" VerticalAlignment="Top"/>
+            <Label Content="Имя:" HorizontalAlignment="Left" Margin="116,120,0,0" VerticalAlignment="Top"/>
+            <Label Content="Отчество:" HorizontalAlignment="Left" Margin="90,160,0,0" VerticalAlignment="Top"/>
+            <Label Content="День рождения:" HorizontalAlignment="Left" Margin="55,200,0,0" VerticalAlignment="Top"/>
             <TextBox x:Name="surnameText" HorizontalAlignment="Left" Margin="169,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
             <TextBox x:Name="nameText" HorizontalAlignment="Left" Margin="169,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
             <TextBox x:Name="middleNameText" HorizontalAlignment="Left" Margin="169,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
             <TextBox x:Name="birthDateText" HorizontalAlignment="Left" Margin="169,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <Button Content="Добавить" HorizontalAlignment="Left" Margin="229,338,0,0" VerticalAlignment="Top" Click="AddOrganization_Click"/>
+            <Button Content="Добавить" HorizontalAlignment="Left" Margin="410,292,0,0" VerticalAlignment="Top" Click="AddEmployes_Click"/>
             <ComboBox Name="organizationComboBox" HorizontalAlignment="Left" Margin="169,45,0,0" VerticalAlignment="Top" Width="120"/>
+            <Label Content="Паспорт  Серия:" HorizontalAlignment="Left" Margin="56,240,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="passportSeriesText" HorizontalAlignment="Left" Margin="169,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <Label Content="Номер:" HorizontalAlignment="Left" Margin="300,240,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="passportNumberText" HorizontalAlignment="Left" Margin="350,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
 
 
 

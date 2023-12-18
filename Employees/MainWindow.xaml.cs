@@ -66,9 +66,45 @@ namespace Employees
                 appDbContext.Organizations.Add(organization);
                 appDbContext.SaveChanges();
                 AddOrganizationGrid.Visibility = Visibility.Collapsed;
+                CleanTextBox();
             }
             else
                 MessageBox.Show("Введены некорректные данные!");
+        }
+        private void AddEmployes_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(nameText.Text == "" || surnameText.Text == "" || middleNameText.Text == "" || birthDateText.Text == "" || passportSeriesText.Text == "" || passportNumberText.Text == ""))
+            {
+                var organization = appDbContext.Organizations.Where(p => p.Name == organizationComboBox.Text).ToArray();
+                Employees.Entity.Employees employees = new Employees.Entity.Employees()
+                {
+                    Organization = organization[0],
+                    Surname = surnameText.Text,
+                    Name = nameText.Text,
+                    MiddleName = middleNameText.Text,
+                    BirthDate = birthDateText.Text,
+                    PassportSeries = passportSeriesText.Text,
+                    PassportNumber = passportNumberText.Text
+                };
+                appDbContext.Employe.Add(employees);
+                appDbContext.SaveChanges();
+                AddEmployesGrid.Visibility = Visibility.Collapsed;
+                CleanTextBox();
+            }
+            else
+                MessageBox.Show("Введены некорректные данные!");
+        }
+        private void CleanTextBox()
+        {
+            surnameText.Text = null;
+            middleNameText.Text = null;
+            birthDateText.Text = null;
+            passportSeriesText.Text = null;
+            passportNumberText.Text = null;
+            organizationNameText.Text = null;
+            innText.Text = null;
+            legalAddressText.Text = null;   
+            actualAddressText.Text = null;
         }
 
     }
